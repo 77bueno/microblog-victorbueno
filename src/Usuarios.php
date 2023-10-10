@@ -89,4 +89,7 @@ class Usuario {
             die("Erro ao inserir usuário: ".$erro->getMessage());
         }
     }
+
+
+    // 
 }
