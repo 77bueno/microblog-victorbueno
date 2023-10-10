@@ -79,6 +79,7 @@ class Usuario {
             $consulta->bindValue(":email", $this->email, PDO::PARAM_STR);
             $consulta->bindValue(":senha", $this->senha, PDO::PARAM_STR);
             $consulta->bindValue(":tipo", $this->tipo, PDO::PARAM_STR);
+            $consulta->execute();
         } catch (Exception $erro) {
             die("Erro ao inserir usuário: ".$erro->getMessage());
         }
