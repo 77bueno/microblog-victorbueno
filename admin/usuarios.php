@@ -35,23 +35,23 @@ $listaDeUsuarios = $usuario->listar();
 
 				<tbody>
 
-				<?php foreach ($listaDeUsuarios as $usuario) { ?>
+				<?php foreach ($listaDeUsuarios as $dadosUsuario) { ?>
 				<tr>
 						
-						<td> <?=$usuario['nome']?> </td>
-						<td> <?=$usuario['email']?> </td>
-						<td> <?=$usuario['tipo']?> </td>
+						<td> <?=$dadosUsuario['nome']?> </td>
+						<td> <?=$dadosUsuario['email']?> </td>
+						<td> <?=$dadosUsuario['tipo']?> </td>
 						<?php ?>
 				
 						
 						<td class="text-center">
 							<a class="btn btn-warning" 
-							href="usuario-atualiza.php?id=<?=$usuario['id']?>">
+							href="usuario-atualiza.php?id=<?=$dadosUsuario['id']?>">
 							<i class="bi bi-pencil"></i> Atualizar
 							</a>
 						
 							<a class="btn btn-danger excluir" 
-							href="usuario-exclui.php?id=<?=$usuario['id']?>">
+							href="usuario-exclui.php?id=<?=$dadosUsuario['id']?>">
 							<i class="bi bi-trash"></i> Excluir
 							</a>
 						</td>
