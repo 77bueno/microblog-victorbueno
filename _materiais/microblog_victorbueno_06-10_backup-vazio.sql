@@ -18,10 +18,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `microblog_tiago`
+-- Banco de dados: `microblog_victorbueno`
 --
-CREATE DATABASE IF NOT EXISTS `microblog_tiago` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `microblog_tiago`;
+CREATE DATABASE IF NOT EXISTS `microblog_victorbueno` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `microblog_victorbueno`;
 
 -- --------------------------------------------------------
 
