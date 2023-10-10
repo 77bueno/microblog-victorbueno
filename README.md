@@ -1,3 +1,3 @@
 # Microblog
  
-Pequeno site de notícias utilizando PHP e MySQL.
+Pequeno site de notícias utilizando PHP e MySQL. Victor
