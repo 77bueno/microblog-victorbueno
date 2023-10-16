@@ -5,6 +5,8 @@ require_once "../inc/cabecalho-admin.php";
 $usuario = new Usuario;
 $usuario->setId($_GET['id']);
 $dadosUsuario = $usuario->listarUm();
+
+
 ?>
 
 

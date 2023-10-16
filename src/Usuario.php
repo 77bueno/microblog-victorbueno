@@ -100,8 +100,8 @@ class Usuario {
         return $resultado;
     }
 
-    public function listarUm() : array
-    {
+    // SELECT De Usuario
+    public function listarUm() : array {
         $sql = "SELECT * FROM usuarios WHERE id = :id";
 
         try {
@@ -115,4 +115,22 @@ class Usuario {
         return $result;
     }
 
+
+    // UPDATE De Usuario 
+    public function atualizar():void {
+        $sql = "UPDATE usuarios SET nome = :nome, email = :email, senha = :senha, tipo = :tipo
+        WHERE id = :id";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":id", $this->id, PDO::PARAM_INT);
+            $consulta->bindValue(":nome", $this->nome, PDO::PARAM_STR);
+            $consulta->bindValue(":email", $this->email, PDO::PARAM_STR);
+            $consulta->bindValue(":senha", $this->senha, PDO::PARAM_STR);
+            $consulta->bindValue(":tipo", $this->tipo, PDO::PARAM_STR);
+            $consulta->execute();
+        } catch (\Exception $e) {
+            die("Erro ao atualizar usuário: ".$e->getMessage());
+        }
+    }
 }
