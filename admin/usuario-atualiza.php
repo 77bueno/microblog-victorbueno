@@ -36,8 +36,8 @@ $dadosUsuario = $usuario->listarUm();
 				<label class="form-label" for="tipo">Tipo:</label>
 				<select class="form-select" name="tipo" id="tipo" required>
 					<option value=""></option>
-					<option value="editor" <?php if ( $dadosUsuario['tipo'] === 'editor') echo "selected" ?>>Editor</option>
-					<option value="admin" <?php if ( $dadosUsuario['tipo'] === 'admin') echo "selected" ?>>Administrador</option>
+					<option value="editor" <?php if ( $dadosUsuario['tipo'] === 'editor') echo "selected"; ?>>Editor</option>
+					<option value="admin" <?php if ( $dadosUsuario['tipo'] === 'admin') echo "selected"; ?>>Administrador</option>
 				</select>
 			</div>
 			
