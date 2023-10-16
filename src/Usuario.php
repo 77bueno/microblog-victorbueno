@@ -156,10 +156,6 @@ class Usuario {
         try {
             $consulta = $this->conexao->prepare($sql);
             $consulta->bindValue(":id", $this->id, PDO::PARAM_INT);
-            $consulta->bindValue(":nome", $this->nome, PDO::PARAM_STR);
-            $consulta->bindValue(":email", $this->email, PDO::PARAM_STR);
-            $consulta->bindValue(":senha", $this->senha, PDO::PARAM_STR);
-            $consulta->bindValue(":tipo", $this->tipo, PDO::PARAM_STR);
             $consulta->execute();
 
         } catch (Exception $e) {
