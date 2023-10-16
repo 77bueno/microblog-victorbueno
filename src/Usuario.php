@@ -15,11 +15,6 @@ class Usuario {
         $this->conexao = Banco::conecta();
     }
 
-    /* Métodos para codificação e comparação de Senha */
-    public function codificaSenha(string $senha):string {
-        return password_hash($senha, PASSWORD_DEFAULT);
-    }
-
     public function getNome(): string {
         return $this->nome;
     }
@@ -65,6 +60,26 @@ class Usuario {
 
         return $this;
     }
+
+    /* Métodos para codificação e comparação de Senha */
+    public function codificaSenha(string $senha):string {
+        return password_hash($senha, PASSWORD_DEFAULT);
+    }
+
+    public function verificaSenha(string $senhaFormulario, string $senhaBanco):string {
+        /* Usamos a função password_verify para COMPARAR as duas senhas:
+        a digitada no formulário e a existente no banco de dados. */
+        if(password_verify($senhaFormulario, $senhaBanco)){
+            /* Se forem  IGUAIS, mantemos a senha já existente,
+            sem qualquer modificação. */
+            return $senhaBanco;
+        } else {
+            /* Se forem DIFERENTES, então a nova senha (ou seja, a que foi digitada no formulário)
+            DEVE ser codificada. */
+            return $this->codificaSenha($senhaFormulario);
+        }
+    }
+
 
     /* Métodos para rotinas de CRUD no Banco */
 
@@ -131,6 +146,24 @@ class Usuario {
             $consulta->execute();
         } catch (\Exception $e) {
             die("Erro ao atualizar usuário: ".$e->getMessage());
+        }
+    }
+
+    // DELETE De Usuario
+    public function deletar():void {
+        $sql = "DELETE FROM usuarios WHERE id = :id";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":id", $this->id, PDO::PARAM_INT);
+            $consulta->bindValue(":nome", $this->nome, PDO::PARAM_STR);
+            $consulta->bindValue(":email", $this->email, PDO::PARAM_STR);
+            $consulta->bindValue(":senha", $this->senha, PDO::PARAM_STR);
+            $consulta->bindValue(":tipo", $this->tipo, PDO::PARAM_STR);
+            $consulta->execute();
+
+        } catch (Exception $e) {
+            die("Erro ao deletar usuário: ".$e->getMessage());
         }
     }
 }
