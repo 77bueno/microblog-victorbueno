@@ -1,5 +1,10 @@
-<?php 
+<?php
+use Microblog\Usuario;
 require_once "../inc/cabecalho-admin.php";
+
+$usuario = new Usuario;
+$usuario->setId($_GET['id']);
+$dadosUsuario = $usuario->listarUm();
 ?>
 
 
@@ -14,12 +19,12 @@ require_once "../inc/cabecalho-admin.php";
 
 			<div class="mb-3">
 				<label class="form-label" for="nome">Nome:</label>
-				<input class="form-control" type="text" id="nome" name="nome" required>
+				<input value="<?=$dadosUsuario['nome']?>" class="form-control" type="text" id="nome" name="nome" required>
 			</div>
 
 			<div class="mb-3">
 				<label class="form-label" for="email">E-mail:</label>
-				<input class="form-control" type="email" id="email" name="email" required>
+				<input value="<?=$dadosUsuario['email']?>" class="form-control" type="email" id="email" name="email" required>
 			</div>
 
 			<div class="mb-3">
@@ -31,8 +36,8 @@ require_once "../inc/cabecalho-admin.php";
 				<label class="form-label" for="tipo">Tipo:</label>
 				<select class="form-select" name="tipo" id="tipo" required>
 					<option value=""></option>
-					<option value="editor">Editor</option>
-					<option value="admin">Administrador</option>
+					<option value="editor" <?php if ( $dadosUsuario['tipo'] === 'editor') echo "selected" ?>>Editor</option>
+					<option value="admin" <?php if ( $dadosUsuario['tipo'] === 'admin') echo "selected" ?>>Administrador</option>
 				</select>
 			</div>
 			
