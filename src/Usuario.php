@@ -81,7 +81,7 @@ class Usuario {
     }
 
     // Método para buscar no banco um usuário através do e-mail
-    public function buscar(): array | bool {
+    public function buscar(): array | bool { // tipos de saídas do PHP 7.4+
         $sql = "SELECT * FROM usuarios WHERE email = :email";
         try {
             $consulta = $this->conexao->prepare($sql);
