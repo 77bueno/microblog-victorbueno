@@ -1,6 +1,6 @@
 <?php
-use Microblog\Usuario;
-use Microblog\ControleDeAcesso;
+use Microblog\{Usuario, ControleDeAcesso};
+
 require_once "../vendor/autoload.php";
 
 $sessao = new ControleDeAcesso;
