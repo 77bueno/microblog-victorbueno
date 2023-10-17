@@ -6,9 +6,13 @@ require_once "inc/cabecalho.php";
 /* Programação das mensagens de feedback (campos obrigatórios,
 dados incorretos, saiu do sistema etc) */
 if ( isset($_GET["campos_obrigatorios"]) ) {
-	$feedback = "Você deve preencher os campos! 🤐";
+	$feedback = "Você deve preencher os campos!";
 } elseif( isset($_GET["dados_incorretos"]) ) {
-	$feedback = "Algo de errado não está certo! 😔";
+	$feedback = "Algo de errado não está certo!";
+} elseif( isset($_GET["logout"]) ) {
+	$feedback = "Você saiu do sistema! ";
+} elseif( isset($_GET['acesso_proibido']) ){
+	$feedback = "Você deve logar primeiro!";
 }
 
 ?>
