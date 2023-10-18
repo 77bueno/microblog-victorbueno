@@ -1,5 +1,12 @@
 <?php 
 require_once "../inc/cabecalho-admin.php";
+use Microblog\Usuario;
+use Microblog\Utilitarios;
+
+$usuario = new Usuario;
+$usuario->setId($_SESSION['id']);
+
+$dados = $usuario->listarUm();
 ?>
 
 
@@ -14,12 +21,12 @@ require_once "../inc/cabecalho-admin.php";
 
 			<div class="mb-3">
 				<label class="form-label" for="nome">Nome:</label>
-				<input class="form-control" type="text" id="nome" name="nome" required>
+				<input value="<?=$dados['nome']?>" class="form-control" type="text" id="nome" name="nome" required>
 			</div>
 
 			<div class="mb-3">
 				<label class="form-label" for="email">E-mail:</label>
-				<input class="form-control" type="email" id="email" name="email" required>
+				<input value="<?=$dados['email']?>" class="form-control" type="email" id="email" name="email" required>
 			</div>
 
 			<div class="mb-3">
