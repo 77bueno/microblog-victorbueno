@@ -1,5 +1,11 @@
 <?php 
+use Microblog\Categoria;
 require_once "../inc/cabecalho-admin.php";
+
+$sessao->verificaAcessoAdmin();
+
+$categorias = new Categoria;
+$categoria = $categorias->lerUm();
 ?>
 
 

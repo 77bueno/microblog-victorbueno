@@ -38,6 +38,21 @@ class Categoria {
         return $resultado;
     }
 
+    /* SELECT & UPDATE */
+    public function lerUm():array {
+        $sql = "SELECT * FROM categorias WHERE id = :id";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":id", $this->id, PDO::PARAM_INT);
+            $consulta->execute();
+            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die("Erro ao ler uma categoria: ".$e->getMessage());
+        }
+        return $resultado;
+    }
+
 
     public function getId(): int {
         return $this->id;
