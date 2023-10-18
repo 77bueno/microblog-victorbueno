@@ -12,7 +12,7 @@ class Categoria {
     }
 
     /* INSERT */
-    public function inserir() {
+    public function inserir():void {
         $sql = "INSERT INTO categorias(nome) VALUES (:nome)";
 
         try {
@@ -25,14 +25,17 @@ class Categoria {
     }
 
     /* SELECT */
-    public function ler() {
+    public function ler():array {
         $sql = "SELECT * FROM categorias ORDER BY nome";
 
         try {
-            
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             die("Erro ao ler categorias: ".$e->getMessage());
         }
+        return $resultado;
     }
 
 

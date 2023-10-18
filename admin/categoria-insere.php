@@ -1,6 +1,6 @@
-<?php 
-require_once "../inc/cabecalho-admin.php";
+<?php
 use Microblog\Categoria;
+require_once "../inc/cabecalho-admin.php";
 
 $sessao->verificaAcessoAdmin();
 
