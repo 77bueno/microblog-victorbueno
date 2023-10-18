@@ -2,6 +2,9 @@
 use Microblog\Usuario;
 require_once "../inc/cabecalho-admin.php";
 
+$sessao->verificaAcessoAdmin();
+
+
 /* Script para carregamento */
 $usuario = new Usuario;
 $usuario->setId($_GET['id']);
