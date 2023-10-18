@@ -20,6 +20,11 @@ if ( isset($_POST['atualizar']) ) {
 	}
 
 	$usuario->atualizar();
+
+	/* Atualizando a variável de sessão com o novo nome */
+	$_SESSION['nome'] = $usuario->getNome();
+
+
 	header("location:index.php?perfil_autorizado");
 }
 ?>
