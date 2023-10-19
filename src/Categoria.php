@@ -53,6 +53,16 @@ class Categoria {
         return $resultado;
     }
 
+    public function atualizar():void {
+        $sql = "UPDATE usuarios SET nome = :nome WHERE id = :id";
+
+        try {
+            //code...
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
 
     public function getId(): int {
         return $this->id;

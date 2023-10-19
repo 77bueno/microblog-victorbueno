@@ -1,11 +1,15 @@
 <?php 
 use Microblog\Categoria;
+use Microblog\Utilitarios;
+
 require_once "../inc/cabecalho-admin.php";
 
 $sessao->verificaAcessoAdmin();
 
 $categorias = new Categoria;
-$categoria = $categorias->lerUm();
+$categorias->setId($_GET['id']);
+$umaCategoria = $categorias->lerUm();
+
 ?>
 
 
@@ -20,7 +24,7 @@ $categoria = $categorias->lerUm();
 
 			<div class="mb-3">
 				<label class="form-label" for="nome">Nome:</label>
-				<input class="form-control" type="text" id="nome" name="nome" required>
+				<input value="<?=$umaCategoria['nome']?>" class="form-control" type="text" id="nome" name="nome" required>
 			</div>
 			
 			<button class="btn btn-primary" name="atualizar"><i class="bi bi-arrow-clockwise"></i> Atualizar</button>
