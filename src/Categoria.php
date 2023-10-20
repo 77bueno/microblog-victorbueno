@@ -54,12 +54,28 @@ class Categoria {
     }
 
     public function atualizar():void {
-        $sql = "UPDATE usuarios SET nome = :nome WHERE id = :id";
+        $sql = "UPDATE categorias SET nome = :nome WHERE id = :id";
 
         try {
-            //code...
-        } catch (\Throwable $th) {
-            //throw $th;
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":id", $this->id, PDO::PARAM_INT);
+            $consulta->bindValue(":nome", $this->nome, PDO::PARAM_STR);
+            $consulta->execute();
+        } catch (Exception $e) {
+            die("Erro ao atualizar: ".$e->getMessage());
+        }
+    }
+
+    /* DELETE de categoria */
+    public function deletar():void {
+        $sql = "DELETE FROM categorias WHERE id = :id";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":id", $this->id, PDO::PARAM_INT);
+            $consulta->execute();
+        } catch (Exception $e) {
+            die("Erro ao deletar: ".$e->getMessage());
         }
     }
 

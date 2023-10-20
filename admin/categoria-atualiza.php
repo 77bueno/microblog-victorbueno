@@ -6,10 +6,15 @@ require_once "../inc/cabecalho-admin.php";
 
 $sessao->verificaAcessoAdmin();
 
-$categorias = new Categoria;
-$categorias->setId($_GET['id']);
-$umaCategoria = $categorias->lerUm();
+$categoria = new Categoria;
+$categoria->setId($_GET['id']);
+$umaCategoria = $categoria->lerUm();
 
+if ( isset($_POST['atualizar']) ) {
+	$categoria->setNome($_POST['nome']);
+	$categoria->atualizar();
+	header("location:categorias.php");
+}
 ?>
 
 
