@@ -6,5 +6,5 @@ $sessao = new ControleDeAcesso;
 $sessao->verificaAcesso();
 
 $categoria = new Categoria;
-$categoria->getId($_GET['id']);
+$categoria->setId($_GET['id']);
 $categoria->deletar();
