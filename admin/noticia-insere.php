@@ -32,7 +32,9 @@ if ( isset($_POST['inserir']) ) {
 		<h2 class="text-center">
 		Inserir nova notícia
 		</h2>
-				
+		
+		<!-- Para que o formulário aceite arquivos (upload),
+		é necessário habilitar o atributo enctype -->
 		<form class="mx-auto w-75" action="" method="post" id="form-inserir" name="form-inserir" enctype="multipart/form-data">
 
             <div class="mb-3">
