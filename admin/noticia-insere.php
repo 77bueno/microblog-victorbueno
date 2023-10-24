@@ -17,11 +17,21 @@ if ( isset($_POST['inserir']) ) {
 	// ID da categoria escolhida para a notícia
 	$noticia->categoria->setId($_POST['categoria']);
 
-	Utilitarios::dump($noticia);
+	/* Sobre a imagem */
 
-	/* Sobre a imagem
-	- Capturar o arquivo de imagem e enviar para o servidor.
-	- Capturar o nome/extensão e enviar para o banco de dados */
+	// - Capturar o arquivo de imagem
+	$imagem = $_FILES['imagem'];
+
+	// - Enviar para o banco de dados 
+	$noticia->upload($imagem);
+
+	// Capturar o nome/extensão e enviar para o objeto de Noticia
+	$noticia->setImagem($imagem['name']);
+
+	// Executar no banco
+	$noticia->inserir();
+
+	header("location:noticias.php");
 }
 ?>
 

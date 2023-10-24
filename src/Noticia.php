@@ -48,12 +48,14 @@ class Noticia
             $consulta->bindValue(":resumo", $this->resumo, PDO::PARAM_STR);
             $consulta->bindValue(":imagem", $this->imagem, PDO::PARAM_STR);
             $consulta->bindValue(":destaque", $this->destaque, PDO::PARAM_STR);
-
+            
             /* Aqui, primeiro chamamos os getters de ID o Usuario e de Categoria,
             para só depois associar os valores aos parâmetros da consulta SQL.
             Isso é possível devido à associação entre as Classes. */
-            $consulta->bindValue(":usario_id", $this->usuario->getId(), PDO::PARAM_INT);
+            $consulta->bindValue(":usuario_id", $this->usuario->getId(), PDO::PARAM_INT);
             $consulta->bindValue(":categoria_id", $this->categoria->getId(), PDO::PARAM_INT);
+
+            $consulta->execute();
         } catch (Exception $e) {
             die("Erro ao inserir notícia: ".$e->getMessage());
         }
@@ -67,9 +69,41 @@ class Noticia
             $consulta->execute();
             $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
-            die("Erro ao ler categorias: ".$e->getMessage());
+            die("Erro ao ler noticias: ".$e->getMessage());
         }
         return $resultado;
+    }
+
+    public function upload(array $arquivo):void {
+        // Definindo os tipos válidos 
+        $tiposValidos = [
+            "image/png",
+            "image/jpeg", 
+            "image/gif", 
+            "image/svg+xml"
+        ];
+
+        // Verificando se o arquivo NÃO É um dos tipos válidos
+        if ( !in_array($arquivo['type'], $tiposValidos) ) {
+            // Alertamos o usuário e o fazemos voltar para o form.
+            die("<script>
+                    alert('Formato inválido!');
+                    history.back();
+                </script>"
+            );
+        }
+
+        // Acessando APENAS o nome/extensão do arquivo
+        $nome = $arquivo['name'];
+
+        // Acessando os dados de acesso/armazenamento temporários
+        $temporario = $arquivo['tmp_name'];
+
+        // Definindo a pasta de destino das imagens no site.
+        $pastaFinal = "../imagens/".$nome;
+
+        // Movemos/enviamos da área temporária para a final/destino
+        move_uploaded_file($temporario, $pastaFinal);
     }
 
 
@@ -80,7 +114,7 @@ class Noticia
 
     public function setId(int $id): void
     {
-        $this->id = $id;
+        $this->id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
     }
 
     public function getData(): string
@@ -90,7 +124,7 @@ class Noticia
 
     public function setData(string $data): void
     {
-        $this->data = $data;
+        $this->data = filter_var($data, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     public function getTitulo(): string
@@ -100,7 +134,7 @@ class Noticia
 
     public function setTitulo(string $titulo): void
     {
-        $this->titulo = $titulo;
+        $this->titulo = filter_var($titulo, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     public function getTexto(): string
@@ -110,7 +144,7 @@ class Noticia
 
     public function setTexto(string $texto): void
     {
-        $this->texto = $texto;
+        $this->texto = filter_var($texto, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     public function getResumo(): string
@@ -120,7 +154,7 @@ class Noticia
 
     public function setResumo(string $resumo): void
     {
-        $this->resumo = $resumo;
+        $this->resumo = filter_var($resumo, FILTER_SANITIZE_NUMBER_FLOAT);
     }
 
     public function getImagem(): string
@@ -130,7 +164,7 @@ class Noticia
 
     public function setImagem(string $imagem): void
     {
-        $this->imagem = $imagem;
+        $this->imagem = filter_var($imagem, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     public function getDestaque(): string
@@ -140,7 +174,7 @@ class Noticia
 
     public function setDestaque(string $destaque): void
     {
-        $this->destaque = $destaque;
+        $this->destaque = filter_var($destaque, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     public function getCategoria(): Categoria
@@ -150,7 +184,7 @@ class Noticia
 
     public function setCategoria(Categoria $categoria): void
     {
-        $this->categoria = $categoria;
+        $this->categoria = filter_var($categoria, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     public function getUsuario(): Usuario
@@ -160,7 +194,7 @@ class Noticia
 
     public function setUsuario(Usuario $usuario): void
     {
-        $this->usuario = $usuario;
+        $this->usuario = filter_var($usuario, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     public function getTermo(): string
@@ -170,7 +204,7 @@ class Noticia
 
     public function setTermo(string $termo): void
     {
-        $this->termo = $termo;
+        $this->termo = filter_var($termo, FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     public function getConexao(): PDO
