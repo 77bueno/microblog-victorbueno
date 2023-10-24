@@ -22,6 +22,15 @@ class Noticia
     private Categoria $categoria;
     public Usuario $usuario;
     
+    public function __construct() {
+        /* Ao criar um objeto Notícia, aproveitamos
+        para instanciar objetos de Usuario e Categoria */
+        $this->usuario = new Usuario;
+        $this->categoria = new Categoria;
+        
+        $this->conexao = Banco::conecta();
+    }
+
     public function getId(): int
     {
         return $this->id;
