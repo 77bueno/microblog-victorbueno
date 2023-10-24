@@ -20,7 +20,7 @@ class Noticia
     /* Propriedades cujos tipos são ASSOCIADOS
     às classes já existentes. Isso permitirá
     usar recursos destas classes à partir de Noticia. */
-    private Categoria $categoria;
+    public Categoria $categoria;
     public Usuario $usuario;
     
     public function __construct() {
