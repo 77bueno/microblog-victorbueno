@@ -4,6 +4,25 @@ require_once "../inc/cabecalho-admin.php";
 
 $noticia = new Noticia;
 $listaDeCategorias = $noticia->categoria->ler();
+
+if ( isset($_POST['inserir']) ) {
+	$noticia->setTitulo($_POST['titulo']);
+	$noticia->setTexto($_POST['texto']);
+	$noticia->setResumo($_POST['resumo']);
+	$noticia->setDestaque($_POST['destaque']);
+
+	// ID do usuário que está inserindo a notícia
+	$noticia->usuario->setId($_SESSION['id']);
+
+	// ID da categoria escolhida para a notícia
+	$noticia->categoria->setId($_POST['categoria']);
+
+	Utilitarios::dump($noticia);
+
+	/* Sobre a imagem
+	- Capturar o arquivo de imagem e enviar para o servidor.
+	- Capturar o nome/extensão e enviar para o banco de dados */
+}
 ?>
 
 
@@ -14,7 +33,7 @@ $listaDeCategorias = $noticia->categoria->ler();
 		Inserir nova notícia
 		</h2>
 				
-		<form class="mx-auto w-75" action="" method="post" id="form-inserir" name="form-inserir">
+		<form class="mx-auto w-75" action="" method="post" id="form-inserir" name="form-inserir" enctype="multipart/form-data">
 
             <div class="mb-3">
                 <label class="form-label" for="categoria">Categoria:</label>
@@ -43,7 +62,7 @@ $listaDeCategorias = $noticia->categoria->ler();
 			</div>
 
 			<div class="mb-3">
-                <label class="form-label" for="imagem" class="form-label">Selecione uma imagem:</label>
+                <label class="form-label" for="imagem">Selecione uma imagem:</label>
                 <input required class="form-control" type="file" id="imagem" name="imagem"
                 accept="image/png, image/jpeg, image/gif, image/svg+xml">
 			</div>
