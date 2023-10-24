@@ -13,11 +13,15 @@ class Noticia
     private string $resumo;
     private string $imagem;
     private string $destaque;
-    private int $categoriaId;
-    public Usuario $usuario;
     private string $termo;
     private PDO $conexao;
 
+    /* Propriedades cujos tipos são ASSOCIADOS
+    às classes já existentes. Isso permitirá
+    usar recursos destas classes à partir de Noticia. */
+    private Categoria $categoria;
+    public Usuario $usuario;
+    
     public function getId(): int
     {
         return $this->id;
@@ -88,14 +92,14 @@ class Noticia
         $this->destaque = $destaque;
     }
 
-    public function getCategoriaId(): int
+    public function getCategoria(): Categoria
     {
-        return $this->categoriaId;
+        return $this->categoria;
     }
 
-    public function setCategoriaId(int $categoriaId): void
+    public function setCategoria(Categoria $categoria): void
     {
-        $this->categoriaId = $categoriaId;
+        $this->categoria = $categoria;
     }
 
     public function getUsuario(): Usuario
