@@ -59,6 +59,19 @@ class Noticia
         }
     }
 
+    public function ler():array {
+        $sql = "SELECT * FROM noticias ORDER BY nome";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die("Erro ao ler categorias: ".$e->getMessage());
+        }
+        return $resultado;
+    }
+
 
     public function getId(): int
     {
