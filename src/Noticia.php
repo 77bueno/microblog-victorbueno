@@ -2,6 +2,7 @@
 
 namespace Microblog;
 
+use Exception;
 use PDO;
 
 class Noticia
@@ -27,9 +28,37 @@ class Noticia
         para instanciar objetos de Usuario e Categoria */
         $this->usuario = new Usuario;
         $this->categoria = new Categoria;
-        
+
         $this->conexao = Banco::conecta();
     }
+
+
+    /* Métodos CRUD */
+    public function inserir():void {
+        $sql = "INSERT INTO noticias(
+            titulo, texto, resumo, imagem, destaque, usuario_id, categoria_id
+        ) VALUES (
+            :titulo, :texto, :resumo, :imagem, :destaque, :usuario_id, :categoria_id
+        )";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":titulo", $this->titulo, PDO::PARAM_STR);
+            $consulta->bindValue(":texto", $this->texto, PDO::PARAM_STR);
+            $consulta->bindValue(":resumo", $this->resumo, PDO::PARAM_STR);
+            $consulta->bindValue(":imagem", $this->imagem, PDO::PARAM_STR);
+            $consulta->bindValue(":destaque", $this->destaque, PDO::PARAM_STR);
+
+            /* Aqui, primeiro chamamos os getters de ID o Usuario e de Categoria,
+            para só depois associar os valores aos parâmetros da consulta SQL.
+            Isso é possível devido à associação entre as Classes. */
+            $consulta->bindValue(":usario_id", $this->usuario->getId(), PDO::PARAM_INT);
+            $consulta->bindValue(":categoria_id", $this->categoria->getId(), PDO::PARAM_INT);
+        } catch (Exception $e) {
+            die("Erro ao inserir notícia: ".$e->getMessage());
+        }
+    }
+
 
     public function getId(): int
     {
