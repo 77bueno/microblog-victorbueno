@@ -100,6 +100,29 @@ class Noticia
         return $resultado;
     } // fim listar()
 
+    public function listarUm():array {
+        if ( $this->usuario->getTipo() === "admin" ) {
+            // Carrega dados de qualquer noticia de qualquer pessoa
+            $sql = "SELECT * FROM noticias WHERE id = :id";
+        } else {
+            // Carrega dados de qualquer noticia DELE/DELA
+            $sql = "SELECT * FROM noticias WHERE id = :id AND usuario_id = :usuario_id";
+        }
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":id", $this->id, PDO::PARAM_INT);
+            if ( $this->usuario->getTipo() !== "admin" ) {
+                $consulta->bindValue(":usuario_id", $this->usuario->getId(), PDO::PARAM_INT);                
+            }
+            $consulta->execute();
+            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die("Erro ao listar um usuário: ".$e->getMessage());
+        }
+        return $resultado;
+    }
+
     public function upload(array $arquivo):void {
         // Definindo os tipos válidos 
         $tiposValidos = [
