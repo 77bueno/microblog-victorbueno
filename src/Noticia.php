@@ -61,30 +61,30 @@ class Noticia
         }
     }
 
-    public function ler():array {
-        $sql = "SELECT * FROM noticias ORDER BY nome";
-
-        try {
-            $consulta = $this->conexao->prepare($sql);
-            $consulta->execute();
-            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
-        } catch (Exception $e) {
-            die("Erro ao ler noticias: ".$e->getMessage());
-        }
-        return $resultado;
-    }
-
     public function listar():array {
-        /* SQL para usuário admin */
-        $sql = "SELECT 
+        /* Se o tipo de usuário logado for admin  */
+        if ( $this->usuario->getTipo() === "admin" ) {
+            /* Considere o SQL abaixo (pega tudo de todos) */
+             $sql = "SELECT 
                     noticias.id,
                     noticias.titulo,
                     noticias.data,
                     usuarios.nome AS Autor,
                     noticias.destaque
                 FROM noticias INNER JOIN usuarios
-                ON noticias.usuarios
-                ";
+                ON noticias.usuario_id = usuarios.id
+                ORDER BY data DESC"; 
+        } else {
+            /* Senão, considere o SQL abaixo (pega somente referente ao editar) */
+            $sql = "SELECT 
+                    id,
+                    titulo,
+                    data,
+                    destaque
+                    FROM noticias 
+                WHERE usuario_id = :usuario_id
+                ORDER BY data DESC";
+        }
     }
 
     public function upload(array $arquivo):void {
