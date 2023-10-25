@@ -84,8 +84,21 @@ class Noticia
                     FROM noticias 
                 WHERE usuario_id = :usuario_id
                 ORDER BY data DESC";
+        } // fim condicional
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            // Somente se NÃO for um admin, trate o parâmetro abaixo
+            if ( $this->usuario->getTipo() !== "admin" ) {
+                $consulta->bindValue(":usuario_id", $this->usuario->getId(), PDO::PARAM_INT);
+            }
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die("Erro ao listar notícia: ".$e->getMessage());
         }
-    }
+        return $resultado;
+    } // fim listar()
 
     public function upload(array $arquivo):void {
         // Definindo os tipos válidos 
