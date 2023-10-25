@@ -74,6 +74,19 @@ class Noticia
         return $resultado;
     }
 
+    public function listar():array {
+        /* SQL para usuário admin */
+        $sql = "SELECT 
+                    noticias.id,
+                    noticias.titulo,
+                    noticias.data,
+                    usuarios.nome AS Autor,
+                    noticias.destaque
+                FROM noticias INNER JOIN usuarios
+                ON noticias.usuarios
+                ";
+    }
+
     public function upload(array $arquivo):void {
         // Definindo os tipos válidos 
         $tiposValidos = [
