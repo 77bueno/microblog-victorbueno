@@ -212,6 +212,39 @@ class Noticia
     }
 
 
+
+
+
+
+
+
+
+    /* MÉTODOS DA ÁREA PÚBLICA */
+
+    // Index.php
+    public function listarDestaques():array {
+        $sql = "SELECT id, titulo, resumo, imagem FROM noticias
+                WHERE destaque = :destaque
+                ORDER BY data DESC";
+
+        try {
+            $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":destaque", $this->destaque, PDO::PARAM_STR);
+            $consulta->execute();
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            die("Erro ao carregar destaques: ".$e->getMessage());
+        }
+        return $resultado;
+    }
+
+
+
+
+
+
+
+
     public function getId(): int
     {
         return $this->id;
