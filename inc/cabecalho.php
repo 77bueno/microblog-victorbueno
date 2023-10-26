@@ -1,6 +1,6 @@
 <?php 
 require_once "vendor/autoload.php";
-use Microblog\{Noticia, Utilitarios};
+use Microblog\Noticia;
 $noticia = new Noticia;
 ?>
 <!DOCTYPE html>
