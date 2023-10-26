@@ -35,6 +35,9 @@ if ( isset($_POST['atualizar']) ) {
         $noticia->upload($_FILES["imagem"]);
         $noticia->setImagem($_FILES["imagem"]["name"]);
     }
+    
+    $noticia->atualizar();
+    header("location:noticias.php");
 }
 ?>
 
