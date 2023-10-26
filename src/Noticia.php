@@ -140,21 +140,21 @@ class Noticia
 
         try {
             $consulta = $this->conexao->prepare($sql);
+            $consulta->bindValue(":id", $this->id, PDO::PARAM_INT);
             $consulta->bindValue(":titulo", $this->titulo, PDO::PARAM_STR);
             $consulta->bindValue(":texto", $this->texto, PDO::PARAM_STR);
             $consulta->bindValue(":resumo", $this->resumo, PDO::PARAM_STR);
             $consulta->bindValue(":imagem", $this->imagem, PDO::PARAM_STR);
             $consulta->bindValue(":destaque", $this->destaque, PDO::PARAM_STR);
-            
-            /* Aqui, primeiro chamamos os getters de ID o Usuario e de Categoria,
-            para só depois associar os valores aos parâmetros da consulta SQL.
-            Isso é possível devido à associação entre as Classes. */
-            $consulta->bindValue(":usuario_id", $this->usuario->getId(), PDO::PARAM_INT);
             $consulta->bindValue(":categoria_id", $this->categoria->getId(), PDO::PARAM_INT);
+            
+            if ($this->usuario->getTipo() !== "admin") {
+                $consulta->bindValue("usuario_id", $this->usuario->getId(), PDO::PARAM_INT);
+            }
 
             $consulta->execute();
         } catch (Exception $e) {
-            die("Erro ao inserir notícia: ".$e->getMessage());
+            die("Erro ao atualizar notícia: ".$e->getMessage());
         }
     }
 
