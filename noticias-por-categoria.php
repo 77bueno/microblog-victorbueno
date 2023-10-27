@@ -24,7 +24,7 @@ $dados = $noticia->listarPorCategoria();
                     <?php foreach ($dados as $itemDados) { ?>
                     <a href="noticia.php?=<?=$itemDados['id']?>" class="list-group-item list-group-item-action">
                         <h3 class="fs-6"><?=$itemDados['titulo']?></h3>
-                        <p><time><?=$itemDados['data']?></time> - <?=$itemDados['autor']?></p>
+                        <p><time><?=Utilitarios::formataData($itemDados['data'])?></time> - <?=$itemDados['autor']?></p>
                         <p><?=$itemDados['resumo']?></p>
                     </a>
                     <?php } ?>
