@@ -1,5 +1,16 @@
-<?php 
+<?php
+use Microblog\{Usuario, Utilitarios};
 require_once "../inc/cabecalho-admin.php";
+
+/* Verificando se quem está acessando esta página tem permissão
+(se o if do método abaixo for TRUE, então significa que o usuário 
+NÃO É um admin e portando esta página não será autorizada para uso.) */
+$sessao->verificaAcessoAdmin();
+
+$usuario = new Usuario;
+$listaDeUsuarios = $usuario->listar();
+
+
 ?>
 
 
@@ -7,7 +18,7 @@ require_once "../inc/cabecalho-admin.php";
 	<article class="col-12 bg-white rounded shadow my-1 py-4">
 		
 		<h2 class="text-center">
-		Usuários <span class="badge bg-dark">X</span>
+		Usuários <span class="badge bg-dark"><?=count($listaDeUsuarios)?></span>
 		</h2>
 
 		<p class="text-center mt-5">
@@ -30,22 +41,28 @@ require_once "../inc/cabecalho-admin.php";
 
 				<tbody>
 
-					<tr>
-						<td> Nome... </td>
-						<td> E-mail... </td>
-						<td> Tipo... </td>
+				<?php foreach ($listaDeUsuarios as $dadosUsuario) { ?>
+				<tr>
+						
+						<td> <?=$dadosUsuario['nome']?> </td>
+						<td> <?=$dadosUsuario['email']?> </td>
+						<td> <?=$dadosUsuario['tipo']?> </td>
+						<?php ?>
+				
+						
 						<td class="text-center">
 							<a class="btn btn-warning" 
-							href="usuario-atualiza.php">
+							href="usuario-atualiza.php?id=<?=$dadosUsuario['id']?>">
 							<i class="bi bi-pencil"></i> Atualizar
 							</a>
 						
 							<a class="btn btn-danger excluir" 
-							href="usuario-exclui.php">
+							href="usuario-exclui.php?id=<?=$dadosUsuario['id']?>">
 							<i class="bi bi-trash"></i> Excluir
 							</a>
 						</td>
-					</tr>
+				</tr>
+				<?php } ?>
 
 				</tbody>                
 			</table>

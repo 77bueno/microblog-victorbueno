@@ -1,5 +1,41 @@
-<?php 
+<?php
+use Microblog\Usuario;
 require_once "../inc/cabecalho-admin.php";
+
+$sessao->verificaAcessoAdmin();
+
+
+/* Script para carregamento */
+$usuario = new Usuario;
+$usuario->setId($_GET['id']);
+$dadosUsuario = $usuario->listarUm();
+
+/* Script para atualização */ 
+if( isset($_POST['atualizar']) ){
+	$usuario->setNome($_POST['nome']);
+	$usuario->setEmail($_POST['email']);
+	$usuario->setTipo($_POST['tipo']);
+
+	/* Algoritmo geral para tratamento de senha */
+
+	/* Se o campo senha no formulário estiver vazio, 
+	significa que o usuário NÃO MUDOU A SENHA. */
+	if ( empty($_POST['senha']) ) {
+
+		/* Portanto, simplesmente repasssamos a senha já
+		existente no banco ($dados['senha']) para o objeto
+		através do setSenha, sem qualquer alteração. */
+		$usuario->setSenha($dadosUsuario['senha']);
+	} else {
+		/* Caso contrário, se o usuário digitou alguma coisa no campo,
+		precisaremos verificar o que foi digitado. */
+		$usuario->setSenha(
+			$usuario->verificaSenha($_POST['senha'], $dadosUsuario['senha'])
+		);
+	}
+
+	$usuario->atualizar();
+}
 ?>
 
 
@@ -14,12 +50,12 @@ require_once "../inc/cabecalho-admin.php";
 
 			<div class="mb-3">
 				<label class="form-label" for="nome">Nome:</label>
-				<input class="form-control" type="text" id="nome" name="nome" required>
+				<input value="<?=$dadosUsuario['nome']?>" class="form-control" type="text" id="nome" name="nome" required>
 			</div>
 
 			<div class="mb-3">
 				<label class="form-label" for="email">E-mail:</label>
-				<input class="form-control" type="email" id="email" name="email" required>
+				<input value="<?=$dadosUsuario['email']?>" class="form-control" type="email" id="email" name="email" required>
 			</div>
 
 			<div class="mb-3">
@@ -31,8 +67,8 @@ require_once "../inc/cabecalho-admin.php";
 				<label class="form-label" for="tipo">Tipo:</label>
 				<select class="form-select" name="tipo" id="tipo" required>
 					<option value=""></option>
-					<option value="editor">Editor</option>
-					<option value="admin">Administrador</option>
+					<option value="editor" <?php if ( $dadosUsuario['tipo'] === 'editor') echo " selected "; ?>>Editor</option>
+					<option value="admin" <?php if ( $dadosUsuario['tipo'] === 'admin') echo " selected "; ?>>Administrador</option>
 				</select>
 			</div>
 			

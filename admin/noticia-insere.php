@@ -1,5 +1,38 @@
-<?php 
+<?php
+use Microblog\{Noticia, Utilitarios};
 require_once "../inc/cabecalho-admin.php";
+
+$noticia = new Noticia;
+$listaDeCategorias = $noticia->categoria->ler();
+
+if ( isset($_POST['inserir']) ) {
+	$noticia->setTitulo($_POST['titulo']);
+	$noticia->setTexto($_POST['texto']);
+	$noticia->setResumo($_POST['resumo']);
+	$noticia->setDestaque($_POST['destaque']);
+
+	// ID do usuário que está inserindo a notícia
+	$noticia->usuario->setId($_SESSION['id']);
+
+	// ID da categoria escolhida para a notícia
+	$noticia->categoria->setId($_POST['categoria']);
+
+	/* Sobre a imagem */
+
+	// - Capturar o arquivo de imagem
+	$imagem = $_FILES['imagem'];
+
+	// - Enviar para o banco de dados 
+	$noticia->upload($imagem);
+
+	// Capturar o nome/extensão e enviar para o objeto de Noticia
+	$noticia->setImagem($imagem['name']);
+
+	// Executar no banco
+	$noticia->inserir();
+
+	header("location:noticias.php");
+}
 ?>
 
 
@@ -9,16 +42,18 @@ require_once "../inc/cabecalho-admin.php";
 		<h2 class="text-center">
 		Inserir nova notícia
 		</h2>
-				
-		<form class="mx-auto w-75" action="" method="post" id="form-inserir" name="form-inserir">
+		
+		<!-- Para que o formulário aceite arquivos (upload),
+		é necessário habilitar o atributo enctype -->
+		<form class="mx-auto w-75" action="" method="post" id="form-inserir" name="form-inserir" enctype="multipart/form-data">
 
             <div class="mb-3">
                 <label class="form-label" for="categoria">Categoria:</label>
                 <select class="form-select" name="categoria" id="categoria" required>
 					<option value=""></option>
-					<option value="1">Ciência</option>
-					<option value="2">Educação</option>
-					<option value="3">Tecnologia</option>
+					<?php foreach ($listaDeCategorias as $UmaCategoria) { ?>
+						<option value="<?=$UmaCategoria['id']?>"><?=$UmaCategoria['nome']?></option>
+					<?php } ?>
 				</select>
 			</div>
 
@@ -39,7 +74,7 @@ require_once "../inc/cabecalho-admin.php";
 			</div>
 
 			<div class="mb-3">
-                <label class="form-label" for="imagem" class="form-label">Selecione uma imagem:</label>
+                <label class="form-label" for="imagem">Selecione uma imagem:</label>
                 <input required class="form-control" type="file" id="imagem" name="imagem"
                 accept="image/png, image/jpeg, image/gif, image/svg+xml">
 			</div>
