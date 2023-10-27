@@ -94,7 +94,7 @@ final class Categoria {
     }
 
     public function setNome(string $nome): self {
-        $this->id = filter_var($nome, FILTER_SANITIZE_SPECIAL_CHARS);
+        $this->nome = filter_var($nome, FILTER_SANITIZE_SPECIAL_CHARS);
         return $this;
     }
 }

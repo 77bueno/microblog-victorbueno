@@ -285,16 +285,16 @@ class Noticia
                     categorias.nome as categoria
                 FROM noticias 
                 INNER JOIN usuarios ON noticias.usuario_id = usuarios.id
-                INNER JOIN usuarios ON noticias.categoria_id = categorias.id
+                INNER JOIN categorias ON noticias.categoria_id = categorias.id
                 WHERE noticias.categoria_id = :categoria_id";
 
         try {
             $consulta = $this->conexao->prepare($sql);
-            $consulta->bindValue(":id", $this->id, PDO::PARAM_INT);
+            $consulta->bindValue(":categoria_id", $this->categoria->getId(), PDO::PARAM_INT);
             $consulta->execute();
-            $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+            $resultado = $consulta->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
-            die("Erro ao abrir a notícias: ".$e->getMessage());
+            die("Erro ao carregar notícias da categoria: ".$e->getMessage());
         }
         return $resultado;
     }
